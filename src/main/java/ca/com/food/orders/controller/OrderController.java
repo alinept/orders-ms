@@ -6,6 +6,7 @@ import ca.com.food.orders.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,6 +33,10 @@ public class OrderController {
             return  ResponseEntity.ok(dto);
         }
 
+        @GetMapping("/port")
+        public String returnPort(@Value("${local.server.port}") String port){
+            return String.format("Request answered by the instance running on the port %s", port);
+        }
         @PostMapping()
         public ResponseEntity<OrderDto> makeOrder(@RequestBody @Valid OrderDto dto, UriComponentsBuilder uriBuilder) {
             OrderDto order = service.createOrder(dto);
